@@ -72,7 +72,7 @@ function up() {
 
     docker compose up -d
 
-    cache-rebuild
+    cr
 
 }
 
@@ -102,7 +102,7 @@ function import() {
             
             docker exec -i $mysql_container mysql -u $username -p$password $database < $1
 
-            cache-rebuild
+            cr
 
         else
             echo "The argument must be an sql file."
@@ -115,7 +115,7 @@ function import() {
 
 }
 
-function cache-rebuild() {
+function cr() {
     # Clearing cache without drush
     rm -rf web/sites/default/files/php web/sites/default/files/css web/sites/default/files/js web/sites/default/files/imagecache
     rm -rf web/sites/default/files/translations/* web/sites/default/files/php/twig/*

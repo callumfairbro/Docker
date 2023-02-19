@@ -16,6 +16,11 @@ function up() {
 
     composer install
 
+    # Deleting comments from settings.php
+    cat web/sites/default/settings.php | sed "/^#/d" > web/sites/default/settings.php.new && mv web/sites/default/settings.php.new web/sites/default/settings.php
+    cat web/sites/default/settings.php | sed "/\*/d" > web/sites/default/settings.php.new && mv web/sites/default/settings.php.new web/sites/default/settings.php
+    cat web/sites/default/settings.php | sed "/\/\//d" > web/sites/default/settings.php.new && mv web/sites/default/settings.php.new web/sites/default/settings.php
+
     if grep -q "'host' => 'localhost'" "./web/sites/default/settings.php"
     then 
         echo "Updating database host in setting.php..."

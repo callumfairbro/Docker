@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  drupal:
+    build: .
+    image: drupal:9-apache
+    container_name: drupal
+    ports:
+      - 8888:80
+    restart: always
+    volumes:
+      - ./:/opt/drupal/
+
+  mysql:
+    image: mariadb:10
+    container_name: drupal-mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: drupal
+      MARIADB_DATABASE: u684743281_different_wave
+      MARIADB_USER: u684743281_different_wave
+      MARIADB_PASSWORD: nemeSis11
+    ports:
+      - 3306:3306
+    volumes:
+      - /var/lib/mysql

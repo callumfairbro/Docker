@@ -33,7 +33,9 @@ function up() {
     if [ ! -f "./docker-compose.yml" ]
     then
         echo "Downloading docker-compose.yml..."
-        curl -u callumfairbro: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 -o docker-compose.yml https://raw.githubusercontent.com/callumfairbro/Docker/main/Drupal/docker-compose.yml
+        curl -o docker-compose.yml https://raw.githubusercontent.com/callumfairbro/Docker/main/Drupal/docker-compose.yml & pid=$!
+        wait $pid
+
         if grep -q "container_name: drupal" "./docker-compose.yml"
         then 
             echo "Updating drupal container name..."
@@ -48,19 +50,16 @@ function up() {
         database_line=$(grep "'database' => '" ./web/sites/default/settings.php)
         database=${database_line#*"'database' => '"}
         database=${database%%"'"*}
-        echo $database
         cat docker-compose.yml | sed "s/MARIADB_DATABASE:.*/MARIADB_DATABASE: $database/g" > docker-compose.yml.new && mv docker-compose.yml.new docker-compose.yml
         
         username_line=$(grep "'username' => '" ./web/sites/default/settings.php)
         username=${username_line#*"'username' => '"}
         username=${username%%"'"*}
-        echo $username
         cat docker-compose.yml | sed "s/MARIADB_USER:.*/MARIADB_USER: $username/g" > docker-compose.yml.new && mv docker-compose.yml.new docker-compose.yml
 
         password_line=$(grep "'password' => '" ./web/sites/default/settings.php)
         password=${password_line#*"'password' => '"}
         password=${password%%"'"*}
-        echo $password
         cat docker-compose.yml | sed "s/MARIADB_PASSWORD:.*/MARIADB_PASSWORD: $password/g" > docker-compose.yml.new && mv docker-compose.yml.new docker-compose.yml
 
     else 
@@ -70,7 +69,8 @@ function up() {
     if [ ! -f "./Dockerfile" ]
     then
         echo "Downloading Dockerfile..."
-        curl -u callumfairbro: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 -o Dockerfile https://raw.githubusercontent.com/callumfairbro/Docker/main/Drupal/Dockerfile
+        curl -o Dockerfile https://raw.githubusercontent.com/callumfairbro/Docker/main/Drupal/Dockerfile & pid=$!
+        wait $pid
     else 
         echo "Dockerfile already exists."
     fi  

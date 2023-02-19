@@ -16,9 +16,9 @@ services:
     container_name: mysql
     environment:
       MARIADB_ROOT_PASSWORD: drupal
-      MARIADB_DATABASE: u684743281_different_wave
-      MARIADB_USER: u684743281_different_wave
-      MARIADB_PASSWORD: nemeSis11
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
     ports:
       - 3306:3306
     volumes:

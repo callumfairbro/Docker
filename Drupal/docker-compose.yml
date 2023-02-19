@@ -13,7 +13,7 @@ services:
 
   mysql:
     image: mariadb:10
-    container_name: drupal-mysql
+    container_name: mysql
     environment:
       MARIADB_ROOT_PASSWORD: drupal
       MARIADB_DATABASE: u684743281_different_wave

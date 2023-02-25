@@ -120,6 +120,12 @@ function import() {
 
 }
 
+function down() {
+
+    docker compose down --remove-orphans
+
+}
+
 function cr() {
     # Clearing cache without drush
     rm -rf web/sites/default/files/php web/sites/default/files/css web/sites/default/files/js web/sites/default/files/imagecache

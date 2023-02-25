@@ -1,6 +1,11 @@
 function up() {
 
-    open -a Docker
+    if ! pgrep Docker > /dev/null
+    then
+        echo "Opening Docker. Please wait..."
+        open -a Docker
+        sleep 30
+    fi
 
     if [ -d "./vendor" ]
     then
@@ -15,6 +20,7 @@ function up() {
     fi
 
     composer install
+    composer update
 
     # Deleting comments from settings.php
     cat web/sites/default/settings.php | sed "/^#/d" > web/sites/default/settings.php.new && mv web/sites/default/settings.php.new web/sites/default/settings.php
@@ -128,9 +134,13 @@ function down() {
 
 function cr() {
     # Clearing cache without drush
-    rm -rf web/sites/default/files/php web/sites/default/files/css web/sites/default/files/js web/sites/default/files/imagecache
-    rm -rf web/sites/default/files/translations/* web/sites/default/files/php/twig/*
-    brew services restart php
+    if [[ -d web ]]
+    then
+        echo "Clearing cache..."
+        php ./web/core/lib/Drupal/Core/Cache/Cache.php rebuild
+    else
+        echo "Please run this command from the root directory."
+    fi
 }
 
 "$@"

@@ -137,7 +137,18 @@ function cr() {
     if [[ -d web ]]
     then
         echo "Clearing cache..."
-        php ./web/core/lib/Drupal/Core/Cache/Cache.php rebuild
+        docker compose exec drupal drush cr
+        # php ./web/core/lib/Drupal/Core/Cache/Cache.php rebuild
+    else
+        echo "Please run this command from the root directory."
+    fi
+}
+
+function uli() {
+    # Clearing cache without drush
+    if [[ -d web ]]
+    then
+        docker compose exec drupal drush uli
     else
         echo "Please run this command from the root directory."
     fi

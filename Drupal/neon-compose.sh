@@ -1,5 +1,4 @@
-function up() {
-
+function init() {
     if ! pgrep Docker > /dev/null
     then
         echo "Opening Docker. Please wait..."
@@ -80,6 +79,16 @@ function up() {
     else 
         echo "Dockerfile already exists."
     fi  
+}
+
+function up() {
+
+    if ! pgrep Docker > /dev/null
+    then
+        echo "Opening Docker. Please wait..."
+        open -a Docker
+        sleep 30
+    fi
 
     docker compose up -d
 

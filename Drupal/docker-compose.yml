@@ -2,24 +2,25 @@ version: '3.1'
 
 services:
   drupal:
-    build: .
-    image: drupal:9-apache
+    image: drupal:9-latest
     container_name: drupal
     ports:
-      - 8888:80
-    restart: always
+      - 80
     volumes:
       - ./:/opt/drupal/
+    restart: always
 
   mysql:
-    image: mariadb:10
-    container_name: mysql
+    image: mysql:8-debian
+    container_name: mysql-irp
     environment:
-      MARIADB_ROOT_PASSWORD: drupal
-      MARIADB_DATABASE: drupal
-      MARIADB_USER: drupal
-      MARIADB_PASSWORD: drupal
-    ports:
-      - 3306:3306
+      MYSQL_ROOT_PASSWORD: drupal
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
     volumes:
-      - ./.docker-compose/data/:/var/lib/mysql
+      - mysql:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql:

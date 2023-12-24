@@ -3,23 +3,10 @@ function init() {
     then
         echo "Opening Docker. Please wait..."
         open -a Docker
-        sleep 30
-    fi
-
-    if [ -d "./vendor" ]
-    then
-        echo "Deleting vendor directory...\n"
-        rm -rf ./vendor
-    fi
-
-    if [ -d "./web/core" ]
-    then
-        echo "Deleting core directory...\n"
-        rm -rf ./web/core
+        sleep 60
     fi
 
     composer install
-    composer update
 
     # Deleting comments from settings.php
     cat web/sites/default/settings.php | sed "/^#/d" > web/sites/default/settings.php.new && mv web/sites/default/settings.php.new web/sites/default/settings.php
@@ -87,7 +74,7 @@ function up() {
     then
         echo "Opening Docker. Please wait..."
         open -a Docker
-        sleep 30
+        sleep 60
     fi
 
     docker compose up -d
@@ -147,7 +134,6 @@ function cr() {
     then
         echo "Clearing cache..."
         docker compose exec drupal drush cr
-        # php ./web/core/lib/Drupal/Core/Cache/Cache.php rebuild
     else
         echo "Please run this command from the root directory."
     fi
